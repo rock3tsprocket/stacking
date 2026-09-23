@@ -1,0 +1,106 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdint.h>
+
+#define STACK_SIZE 30000
+
+int main(int argc, char *argv[]) {
+	/* Prepare variables */
+	uint8_t  stack[STACK_SIZE+1];
+    uint8_t  reg = 0;
+	uint16_t sp = 0;
+	int      ip = 0;
+	int      filesize = 0;
+
+    /* i */
+    int i = 0;
+	
+	if (!argv[1]) {
+		fprintf(stderr, "No file jump_specified.\n");
+		return 1;
+	}
+
+	/* Load file */
+	FILE *fileptr = fopen(argv[1], "r");
+	if (!fileptr) {
+		fprintf(stderr, "File does not exist\n");
+		return 1;
+	}
+
+	fseek(fileptr, 0, SEEK_END);
+	filesize = ftell(fileptr);
+	fseek(fileptr, 0, SEEK_SET);
+	char code[filesize];
+	fread(code, filesize, 1, fileptr);
+	fclose(fileptr);
+	
+	/* Prepare jump table */
+	uint32_t jump_sp = 0;
+	uint32_t jump_stack[filesize];
+	uint32_t jump[filesize];
+	for (i = 0; i < filesize; i++) {
+		if (code[i] == '[') {
+			jump_stack[++jump_sp] = i;
+		}
+		else if (code[i] == ']') {
+			jump[i] = jump_stack[jump_sp--];
+			jump[jump[i]] = i;
+		}
+	}
+
+	/* Main loop */
+	while (ip < filesize) {
+		switch (code[ip]) {
+			case '>':
+                if (sp+1 < STACK_SIZE)
+                    stack[++sp] = 1;
+				break;
+			case '<':
+                if (sp > 0)
+                    stack[sp--] = 0;
+				break;
+			case '+':
+                if (sp == 0) break;
+                stack[sp-1] += stack[sp];
+                stack[sp--] = 0;
+				break;
+			case '-':
+                if (sp < 1) break;
+                stack[sp-1] -= stack[sp];
+                stack[sp--] = 0;
+				break;
+            case '!':
+                stack[sp] = reg + stack[sp];
+                reg = stack[sp] - reg;
+                stack[sp] = stack[sp] - reg;
+                break;
+			case '.':
+				printf("%c", stack[sp]);
+                fflush(stdout);
+				break;
+			case ',':
+                if (sp+1 < STACK_SIZE) --sp;
+    			printf("\nInput (^D for EOF): ");
+                fflush(stdout);
+                stack[++sp] = fgetc(stdin);
+                if ((int8_t)stack[sp] == EOF) stack[sp] = 0;
+				puts("");
+				break;
+			case '[':
+				if (!stack[sp]) {
+					ip = jump[ip];
+				}
+				break;
+			case ']':
+				if (stack[sp]) {
+					ip = jump[ip];
+				}
+				break;
+		}
+
+		ip++;
+	}
+    puts("");
+	return 0;
+}
+
