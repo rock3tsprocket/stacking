@@ -16,7 +16,7 @@ int main(int argc, char *argv[]) {
     int i = 0;
 	
 	if (!argv[1]) {
-		fprintf(stderr, "No file jump_specified.\n");
+		fprintf(stderr, "No file specified.\n");
 		return 1;
 	}
 
@@ -80,11 +80,11 @@ int main(int argc, char *argv[]) {
 				break;
 			case ',':
                 if (sp+1 < STACK_SIZE) --sp;
-    			printf("\nInput (^D for EOF): ");
+    			fprintf(stderr, "\nInput (^D for EOF): ");
                 fflush(stdout);
                 stack[++sp] = fgetc(stdin);
                 if ((int8_t)stack[sp] == EOF) stack[sp] = 0;
-				puts("");
+				fprintf(stderr, "\n");
 				break;
 			case '[':
 				if (!stack[sp]) {
