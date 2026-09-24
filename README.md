@@ -41,4 +41,5 @@ Examples:
 ## Language specification
 The spec can be found in the `spec/` directory.
 
-An example "Hello, world!" program can be found under the filename "hello.stck".
+An example "Hello, world!" program and a program that counts from 1 to 10 can
+be found in the `examples/` directory.
