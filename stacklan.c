@@ -81,7 +81,7 @@ int main(int argc, char *argv[]) {
             case ',':
                 if (sp+1 < STACK_SIZE) --sp;
                 fprintf(stderr, "\nInput (^D for EOF): ");
-                fflush(stdout);
+                fflush(stderr);
                 stack[++sp] = fgetc(stdin);
                 if ((int8_t)stack[sp] == EOF) stack[sp] = 0;
                 fprintf(stderr, "\n");
