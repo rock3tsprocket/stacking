@@ -1,4 +1,4 @@
-# Reference Stacking interpreter in C
+# Reference Stacklan interpreter in C
 
 ## Building
 

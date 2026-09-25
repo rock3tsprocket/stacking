@@ -24,7 +24,7 @@
 # TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 # THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# This is the makefile for the reference Stacking interpreter.
+# This is the makefile for the reference Stacklan interpreter.
 
 # Environment variables
 CROSS_COMPILE := 
@@ -34,20 +34,20 @@ LDFLAGS :=
 PREFIX := /usr/local
 
 .PHONY: all
-all: bf
+all: stacklan
 	@printf " Congratulations! The interpreter should be built now.\n \
 	If you want to install it, run 'make install'.\n \
 	If you don't want it to install to /usr/local, do\n \
 	'make PREFIX=[install prefix] install'.\n"
 	
-bf:
-	${CC} ${CFLAGS} -o stacking stacking.c ${LDFLAGS}
+stacklan:
+	${CC} ${CFLAGS} -o stacklan stacklan.c ${LDFLAGS}
 	
 .PHONY: clean
 clean:
-	rm -f stacking
+	rm -f stacklan
 
 .PHONY: install
-install: bf
-	install --mode=755 stacking ${PREFIX}/bin
+install: stacklan
+	install --mode=755 stacklan ${PREFIX}/bin
 

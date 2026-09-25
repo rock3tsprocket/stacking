@@ -1,13 +1,13 @@
-# The Stacking specification (ver. 1.1, rev. 2)
+# The Stacklan specification (ver. 1.1, rev. 3)
 
 ## Overview
-Stacking is a [Brainf\*\*k](https://en.wikipedia.org/wiki/Brainfuck)-inspired
+Stacklan is a [Brainf\*\*k](https://en.wikipedia.org/wiki/Brainfuck)-inspired
 programming language that uses the same commands as Brainf\*\*k, but assigns
 different purposes to them, and uses a stack instead of a memory tape. Its
 program file extension is `.stck`.
 
 ## The stack
-Stacking uses a stack and a register to store data. The stack's size is
+Stacklan uses a stack and a register to store data. The stack's size is
 implementation-defined, but the specification recommends that the stack is at
 least 1000 items tall. Each item in the stack must be an unsigned 8-bit integer
 (`unsigned char`). The register (referred to as `reg` from now on) contains an
@@ -15,11 +15,11 @@ least 1000 items tall. Each item in the stack must be an unsigned 8-bit integer
 initialized to 0.
 
 ## The instruction memory
-A Stacking interpreter must store programs separately from the stack, and
-a Stacking program cannot access or modify its "instruction" memory.
+A Stacklan interpreter must store programs separately from the stack, and
+a Stacklan program cannot access or modify its "instruction" memory.
 
 ## The commands
-Stacking has 9 commands, mostly from Brainf\*\*k, with only one being unique
+Stacklan has 9 commands, mostly from Brainf\*\*k, with only one being unique
 to it (`!`). However, `>`, `<`, `+`, and `-`, have different purposes:
 
 `>`: Push 1 onto the stack. If the stack is full, the behaviour is unspecified.
